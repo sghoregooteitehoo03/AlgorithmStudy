@@ -5,7 +5,7 @@ def calcurator(house_table, chicken_table):
     result = 0
     
     for house in house_table:
-            min = 1000000000
+            min = 1e9
 
             for chicken in chicken_table:
                 house_col, house_row = house
@@ -19,7 +19,6 @@ def calcurator(house_table, chicken_table):
             result += min
 
     return result
-
 
 n, m = map(int, input().split())
 map_table = []
@@ -51,18 +50,21 @@ elif m == 1:
         result = calcurator(house_table, [chicken_table[i]])
         result_list.append(result)
 elif close > 1:
-    for i in range(close):
+    for i in range(len(chicken_table)):
         chicken_table_copy = copy.deepcopy(chicken_table)
-        temp = copy.deepcopy(chicken_table_copy)
+        
         del chicken_table_copy[i]
+        temp = copy.deepcopy(chicken_table_copy)
 
-        for j in range(i + 1, close + 1):
-            del chicken_table_copy[j]
+        for j in range(i + 1, len(chicken_table)):
+            remove_value = chicken_table[j]
+            chicken_table_copy.remove(remove_value)
 
-            if len(chicken_table_copy) == close:
+            if len(chicken_table_copy) == m:
                 result = calcurator(house_table, chicken_table_copy)
                 result_list.append(result)
-                chicken_table_copy = temp
+
+                chicken_table_copy = copy.deepcopy(temp)
 else:
     result = calcurator(house_table, chicken_table)
     result_list.append(result)
