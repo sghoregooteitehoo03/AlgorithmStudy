@@ -6,15 +6,14 @@ number_list = list(map(int, input().split()))
 operation_list = list(map(int, input().split()))
 operation_list_flat = []
 
-max_result = 0
-min_result = 1e9
+max_result = int(-1e9)
+min_result = int(1e9)
 
 for i in range(len(operation_list)):
     for j in range(operation_list[i]):
         operation_list_flat.append(i)
 
 cases = list(set(permutations(operation_list_flat)))
-print(cases)
 for case in cases:
     result = 0
     for i in range(len(number_list)):
@@ -28,9 +27,7 @@ for case in cases:
             elif case[i - 1] == 2:
                 result *= number_list[i]
             elif case[i - 1] == 3:
-                result //= number_list[i]
-        
-        print(result)
+                result = int(result / number_list[i])
 
     if result < min_result:
         min_result = result
