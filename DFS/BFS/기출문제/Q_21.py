@@ -1,6 +1,5 @@
 # https://www.acmicpc.net/problem/16234
 import copy
-from collections import deque
 
 def check_allience(value1, value2, L, R):
     diff_value = abs(value1 - value2)
@@ -8,57 +7,60 @@ def check_allience(value1, value2, L, R):
     return diff_value >= L and diff_value <= R
 
 def move_people(country, N, L, R):
-    visited = [[False] * N for _ in range(N)]
-    q = deque([(0, 0)])
-    allience = []
+    grouping_county = []
 
-    while(q):
-        pos_i, pos_j = q.popleft()
+    for i in range(N):
+        l = []
 
-        if not visited[pos_i][pos_j]:
-            visited[pos_i][pos_j] = True
+        for j in range(N):
+            l.append((i * N + j, country[i][j]))
 
-            if pos_i - 1 >= 0 and not visited[pos_i - 1][pos_j]:
-                if check_allience(country[pos_i - 1][pos_j], country[pos_i][pos_j], L, R):
-                    if len(allience) == 0:
-                        allience.append(country[pos_i][pos_j])
-                    allience.append(country[pos_i - 1][pos_j])
-
-                q.append((pos_i - 1, pos_j))
-            if pos_i + 1 < N and not visited[pos_i + 1][pos_j]:
-                if check_allience(country[pos_i + 1][pos_j], country[pos_i][pos_j], L, R):
-                    if len(allience) == 0:
-                        allience.append(country[pos_i][pos_j])
-                    allience.append(country[pos_i + 1][pos_j])
-
-                q.append((pos_i + 1, pos_j))
-            if pos_j - 1 >= 0 and not visited[pos_i][pos_j - 1]:
-                if check_allience(country[pos_i][pos_j - 1], country[pos_i][pos_j], L, R):
-                    if len(allience) == 0:
-                        allience.append(country[pos_i][pos_j])
-                    allience.append(country[pos_i][pos_j - 1])
-
-                q.append((pos_i, pos_j - 1))
-            if pos_j + 1 < N and not visited[pos_i][pos_j + 1]:
-                if check_allience(country[pos_i][pos_j + 1], country[pos_i][pos_j], L, R):
-                    if len(allience) == 0:
-                        allience.append(country[pos_i][pos_j])
-                    allience.append(country[pos_i][pos_j + 1])
-
-                q.append((pos_i, pos_j + 1))
-
-    if len(allience) == 0:
-        return 0
-
-    move_value = sum(allience) // len(allience)
+        grouping_county.append(l)
 
     for i in range(N):
         for j in range(N):
-            if country[i][j] in allience:
-                country[i][j] = move_value
-            
-    return 1 + move_people(country, N, L, R)
+            group_id = grouping_county[i][j][0]
 
+            if i - 1 >= 0:
+                if grouping_county[i - 1][j][0] != group_id and check_allience(country[i - 1][j], country[i][j], L, R):    
+                    grouping_county[i - 1][j] = (group_id, country[i - 1][j])
+
+            if i + 1 < N :
+                if grouping_county[i + 1][j][0] != group_id and check_allience(country[i + 1][j], country[i][j], L, R):
+                    grouping_county[i + 1][j] = (group_id, country[i + 1][j])
+
+            if j - 1 >= 0:
+                if grouping_county[i][j - 1][0] != group_id and check_allience(country[i][j - 1], country[i][j], L, R):
+                    grouping_county[i][j - 1] = (group_id, country[i][j - 1])
+                
+            if j + 1 < N:
+                if grouping_county[i][j + 1][0] != group_id and check_allience(country[i][j + 1], country[i][j], L, R):
+                    grouping_county[i][j + 1] = (group_id, country[i][j + 1])
+                    
+    group = [[] for _ in range(N * N)]
+
+    for i in range(N):
+        l = []
+        for j in range(N):
+            value = grouping_county[i][j]
+            group[value[0]].append((value[1], i, j))
+
+    is_break = True
+    for g in group:
+        if len(g) > 1:
+            is_break = False
+        else:
+            continue
+
+        move_value = sum(item[0] for item in g) // len(g)
+        
+        for pos in g:
+            country[pos[1]][pos[2]] = move_value
+
+    if is_break:
+        return 0
+    
+    return 1 + move_people(country, N, L, R)
 
 N, L, R = map(int, input().split())
 country = []
