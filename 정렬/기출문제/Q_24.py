@@ -1,3 +1,4 @@
+# https://www.acmicpc.net/problem/18310
 n = int(input())
 home = list(map(int, input().split()))
 

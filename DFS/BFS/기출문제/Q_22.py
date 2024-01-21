@@ -1,3 +1,4 @@
+# https://school.programmers.co.kr/learn/courses/30/lessons/60063
 from collections import deque
 
 def solution(board):
