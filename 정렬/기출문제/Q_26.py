@@ -1,24 +1,27 @@
 # https://www.acmicpc.net/problem/1715
+import heapq
+
 n = int(input())
 array = []
-result_arr = []
+result = 0
 
 for i in range(n):
     array.append(int(input()))
 
 if n == 1:
-    print(array[0])
+    print(0)
 else:
-    array.sort()
+    q = []
+    for a in array:
+        heapq.heappush(q, a)
 
-    result_arr.append(array[0] + array[1])
-    for i in range(2, n - 1):
-        if i + 1 < n:
-            result_arr.append(array[i] + array[i + 1])
-        else:
-            print(result_arr)
-            print(i)
-            result_arr.append(result_arr[i - 2] + result_arr[i - 1])
-    
-    print(sum(result_arr))
-# 110 140
+    while(q):
+        val1 = heapq.heappop(q)
+        
+        if len(q) != 0:
+            val2 = heapq.heappop(q)
+            
+            result += (val1 + val2)
+            heapq.heappush(q, val1 + val2)
+
+    print(result)
