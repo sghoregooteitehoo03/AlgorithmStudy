@@ -1,15 +1,12 @@
 # https://www.acmicpc.net/problem/16236
+from collections import deque
+import heapq
+
 n = int(input())
 map_array = []
-fish_pos = {
-    1: [],
-    2: [],
-    3: [],
-    4: [],
-    5: [],
-    6: []
-}
-shark = ()
+shark_pos = ()
+shark_level = 2
+shark_eat = 0
 result = 0
 
 for i in range(n):
@@ -18,31 +15,42 @@ for i in range(n):
 for i in range(n):
     for j in range(n):
         if map_array[i][j] == 9:
-            shark = ((i, j, 2, 0))
-        elif map_array[i][j] != 0:
-            fish_pos[map_array[i][j]].append((i, j))
+            map_array[i][j] = 0
+            shark_pos = (i, j)
 
-while(True):
-    min_pos = (1e9, -1, -1)
+q = deque([(shark_pos[0], shark_pos[1], 0)])
+visited = [[False] * n for _ in range(n)]
+h = []
 
-    for i in range(1, shark[2]):
-        for fp in fish_pos[i]:
-            pos_i, pos_j = fp
-                
-            if map_array[pos_i][pos_j] != 0:
-                distance = (abs(pos_i - shark[0]) + abs(pos_j - shark[1]))
+while(q):
+    pos_i, pos_j, count = q.popleft()
 
-                if min_pos[0] > distance:
-                    min_pos = (distance, pos_i, pos_j)
-                    
-    if min_pos[0] == 1e9:
-        break
+    if not visited[pos_i][pos_j]:
+        visited[pos_i][pos_j] = True
 
-    map_array[min_pos[1]][min_pos[2]] = 0
-    result += min_pos[0]
-    shark = (min_pos[1], min_pos[2], shark[2], shark[3] + 1)
+        if map_array[pos_i][pos_j] > 0 and map_array[pos_i][pos_j] < shark_level:
+            heapq.heappush(h, (count, pos_i, pos_j))
+        if pos_i - 1 >= 0 and map_array[pos_i - 1][pos_j] <= shark_level:
+            q.append((pos_i - 1, pos_j, count + 1))
+        if pos_j - 1 >= 0 and map_array[pos_i][pos_j - 1] <= shark_level:
+            q.append((pos_i, pos_j - 1, count + 1))
+        if pos_i + 1 < n and map_array[pos_i + 1][pos_j] <= shark_level:
+            q.append((pos_i + 1, pos_j, count + 1))
+        if pos_j + 1 < n and map_array[pos_i][pos_j + 1] <= shark_level:
+            q.append((pos_i, pos_j + 1, count + 1))
+            
+    elif q.__len__() == 0 and len(h) != 0:
+        cost, i, j = heapq.heappop(h)
+        shark_eat += 1
+        result += cost
 
-    if shark[2] == shark[3] and shark[2] < 6:
-        shark = (shark[0], shark[1], shark[2] + 1, 0)
+        h.clear()
+        q = deque([(i, j, 0)])
+        visited = [[False] * n for _ in range(n)]
+        map_array[i][j] = 0
+
+        if shark_eat == shark_level:
+            shark_level += 1
+            shark_eat = 0
 
 print(result)
