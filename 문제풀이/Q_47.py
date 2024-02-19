@@ -1,3 +1,4 @@
+# https://www.acmicpc.net/problem/19236
 from collections import deque
 import heapq
 import copy
@@ -35,7 +36,7 @@ def change_fish(map_array):
             if plus_pos[0] < len(map_array) and plus_pos[0] >= 0 and plus_pos[1] < len(map_array) and plus_pos[1] >= 0:
                 other_fish = map_array[plus_pos[0]][plus_pos[1]]
                 if other_fish[0] != -1:
-                    temp = map_array[fish_pos[0]][fish_pos[1]]
+                    temp = (fish[0], fish[1])
                     map_array[fish_pos[0]][fish_pos[1]] = other_fish
                     map_array[plus_pos[0]][plus_pos[1]] = temp
 
@@ -56,6 +57,7 @@ for i in range(4):
     map_array.append([(n1, d1), (n2, d2), (n3, d3), (n4, d4)])
 
 shark_start = (map_array[0][0][0], map_array[0][0][1],  0, 0)
+result = shark_start[0]
 map_array[0][0] = (-1, 0)
 
 q = deque([(shark_start, map_array)])
@@ -67,14 +69,24 @@ while q:
     
     next_pos = get_direction(shark[1])
     shark_ordinary_pos = (shark[2], shark[3])
+    shark_moved_pos = (shark[2], shark[3])
+    
     for i in range(3):
-        next_shark_pos = (shark[2] + next_pos[0], shark[3] + next_pos[1])
+        next_shark_pos = (shark_moved_pos[0] + next_pos[0], shark_moved_pos[1] + next_pos[1])
         copy_map = copy.deepcopy(map)
 
         if next_shark_pos[0] < len(map_array) and next_shark_pos[0] >= 0 and next_shark_pos[1] < len(map_array) and next_shark_pos[1] >= 0:
-            fish = map_array[next_shark_pos[0]][next_shark_pos[1]]
+            fish = copy_map[next_shark_pos[0]][next_shark_pos[1]]
+            shark_moved_pos = (next_shark_pos[0], next_shark_pos[1])
+
             if fish[0] != 0:
                 copy_map[next_shark_pos[0]][next_shark_pos[1]] = (-1, 0)
                 copy_map[shark_ordinary_pos[0]][shark_ordinary_pos[1]] = (0, 0)
-                shark = (shark[0] + fish[0], fish[1], next_shark_pos[0], next_shark_pos[1])
-                q.append((shark, copy_map))
+                
+                new_shark = (shark[0] + fish[0], fish[1], next_shark_pos[0], next_shark_pos[1])
+                q.append((new_shark, copy_map))
+
+                if result < new_shark[0]:
+                    result = new_shark[0]
+
+print(result)
