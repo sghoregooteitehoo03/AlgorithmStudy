@@ -15,7 +15,7 @@ for i in range(n):
 result = (1e9, -1)
 sorted_key = list(blocks.keys())
 sorted_key.sort(reverse=True)
-for key in sorted_key:
+for key in range(max(sorted_key), -1, -1):
     time = 0
     block = b
     is_empty = False
