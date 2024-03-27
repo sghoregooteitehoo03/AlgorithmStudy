@@ -5,20 +5,25 @@ n = int(input())
 m = int(input())
 s = input()
 result = 0
+pattern = 0
+i = 1
 
-find_value = ''
-for i in range(n):
-    find_value += 'I'
-    find_value += 'O'
-find_value += 'I'
-
-i = len(find_value)
-while i < len(s):
-    if find_value == s[i - len(find_value):i]:
+while i < m:
+    is_pattern = False
+    
+    if s[i - 1] == 'I' and s[i] == 'O' and s[i + 1] == 'I':
+        pattern += 1
         i += 2
-        result += 1
-        continue
 
-    i += 1
+        is_pattern = True
+    else:
+        pattern = 0
+        i += 1
+
+    if pattern == n:
+        result += 1
+
+        if is_pattern:
+            pattern -= 1
 
 print(result)
