@@ -26,4 +26,12 @@ for i in range(1, n):
 
         arr[i][j] = (max(cal_arr), min(cal_arr))
 
-print(arr)
+max_value = 0
+min_value = 1e9
+for i in range(3):
+    if max_value < arr[n - 1][i][0]:
+        max_value = arr[n - 1][i][0]
+    if min_value > arr[n - 1][i][1]:
+        min_value = arr[n - 1][i][1]
+
+print(max_value, min_value)
