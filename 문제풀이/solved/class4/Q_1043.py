@@ -19,15 +19,24 @@ for i in range(m):
 
     party_arr.append(arr)
 
-for party in party_arr:
+while True:
     is_fine = True
-    
-    for people in party:
-        if peoples[people]:
-            is_fine = False
+    for i in range(len(party_arr)):
+        party = party_arr[i]
+        
+        for people in party:
+            if peoples[people]:
+                is_fine = False
+                break
+        
+        if not is_fine:
+            for people in party:
+                peoples[people] = True
+            
+            party_arr.pop(i)
             break
 
     if is_fine:
-        result += 1
+        break
 
-print(result)
+print(len(party_arr))
