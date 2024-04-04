@@ -5,7 +5,6 @@ INF = 1e9
 
 n, e = map(int, input().split())
 graph = [[] for _ in range(n + 1)]
-distance = [INF] * (n + 1)
 
 for _ in range(e):
     a, b, c = map(int, input().split())
@@ -15,21 +14,31 @@ for _ in range(e):
 
 v1, v2 = map(int, input().split())
 
-def dijkstra(start):
+def dijkstra(start, end1, end2):
     q = []
+    distance = [INF] * (n + 1)
+    if start == end1 or start == end2:
+        return 0, 0
 
-    heapq.heappush(q, (INF, start, False, False))
+    heapq.heappush(q, (0, start))
     while q:
-        dist, now, v1_visit, v2_visit = heapq.heappop(q)
-        
-        # if distance[now] < dist:
-        #     continue
+        dist, now = heapq.heappop(q)
 
         for node in graph[now]:
             cost = dist + node[1]
+            
             if cost < distance[node[0]]:
                 distance[node[0]] = cost
                 heapq.heappush(q, (cost, node[0]))
 
-dijkstra(1)
-print(distance[n])
+    return distance[end1], distance[end2]
+
+a, d = dijkstra(1, v1, v2)
+b, e = dijkstra(v1, v2, n)
+c, f = dijkstra(v2, n, v1)
+result = min(a + b + c, d + e + f)
+
+if result >= INF:
+    print(-1)
+else:
+    print(result)
