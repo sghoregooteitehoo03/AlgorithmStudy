@@ -1,30 +1,32 @@
 import sys
 input = sys.stdin.readline
 
-s_arr = input().rstrip()
-bomb_str = input().rstrip()
+s_arr = input().strip()
+bomb_str = input().strip()
 
-is_bomb = True
-
-while is_bomb:
-    is_bomb = False
-    stack = []
+del_pos = []
+stack = []
+result = []
     
-    for i in range(len(s_arr)):
-        if s_arr[i] == bomb_str[len(stack)]:
-            if len(stack) != 0 and s_arr[i - 1] == bomb_str[len(stack) - 1]:
-                stack.append(s_arr[i])
-            elif len(stack) == 0:
-                stack.append(s_arr[i])
+for i in range(len(s_arr)):
+    if len(stack) != 0 and s_arr[i] == bomb_str[stack[-1][1] + 1]:
+        if bomb_str[stack[-1][1] + 1] == bomb_str[-1]:
+            del stack[len(stack) - (len(bomb_str) - 1):len(stack)]
+        else:
+            stack.append((s_arr[i], stack[-1][1] + 1))
+    elif s_arr[i] == bomb_str[0]:
+        stack.append((bomb_str[0], 0))
+    elif len(stack) != 0 and s_arr[i] != bomb_str[stack[-1][1] + 1]:
+        result.extend(stack)
+        result.append((s_arr[i], 0))
+        stack.clear()
+    else:
+        result.append((s_arr[i], 0))
 
-        if ''.join(stack) == bomb_str:
-            is_bomb = True
-            
-            new_str = s_arr[:i - (len(stack) - 1)] + s_arr[i + 1:]
-            s_arr = new_str
-            break
-
-if len(s_arr) == 0:
+if len(result) == 0:
     print("FRULA")
 else:
-    print(s_arr)
+    data = ''
+    for s in result:
+        data += s[0]
+    print(data)
