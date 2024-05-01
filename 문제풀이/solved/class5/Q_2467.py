@@ -1,5 +1,4 @@
 import sys
-import math
 input = sys.stdin.readline
 
 def binary_search(start, end, arr, number, standard):
@@ -14,15 +13,10 @@ def binary_search(start, end, arr, number, standard):
             result = abs(arr[mid] + number)
             result_end = mid
             
-            if abs(number) < arr[mid]:
-                end = mid - 1
-            else:
-                start = mid + 1
+        if abs(number) < arr[mid]:
+            end = mid - 1
         else:
-            if abs(number) < arr[mid]:
-                end = mid - 1
-            else:
-                start = mid + 1
+            start = mid + 1
 
     return (result, result_end)
 
@@ -33,7 +27,7 @@ result = 1e10
 start_pos = -1
 end_pos = -1
 
-for i in range(math.ceil(n / 2) + 1):
+for i in range(n - 1):
     search = binary_search(i, n - 1, arr, arr[i], result)
     if search[0] <= result and search[1] != -1 and search[1] != i:
         result = search[0]
