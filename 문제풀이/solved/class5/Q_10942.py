@@ -8,9 +8,10 @@ arr = list(map(int, input().split()))
 m = int(input())
 
 def is_same(s, e):
-    if dp[s] == 1:
+    diff = (e - s) + 1
+    if dp[diff][s] == 1:
         return 1
-    elif dp[s] == 0:
+    elif dp[diff][s] == 0:
         return 0
     
     if s == e:
@@ -21,7 +22,6 @@ def is_same(s, e):
         dp[2][s] = cal
         return cal
     else:
-        diff = e - s
         dp[diff][s] = int(bool(int(arr[s] == arr[e])) and bool(is_same(s + 1, e - 1)))
         return dp[diff][s]
 
