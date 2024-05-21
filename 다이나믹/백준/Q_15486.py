@@ -14,11 +14,9 @@ for i in range(n):
 
 max_value = 0
 for i in range(n):
+    max_value = max(dp[i], max_value)
+    
     if i + t[i] <= n:
-        dp[i + t[i]] = max(dp[i + t[i]], dp[i] + p[i])
-        
-        if max_value < dp[i + t[i]]:
-            max_value = dp[i + t[i]]
+        dp[i + t[i]] = max(dp[i + t[i]], max_value + p[i])
 
-print(dp)
 print(max(dp))
