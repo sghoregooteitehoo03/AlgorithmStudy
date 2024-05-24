@@ -12,15 +12,23 @@ for i in range(n):
     arr.append((cost, count))
 
 result = 0
-for i in range(1, c + 1):
-    for j in range(n):
-        if i % arr[j][0] == 0 and i != arr[j][0]:
-            cal = arr[j][1] + dp[i - arr[j][0]]
-            
-            if cal <= c:
-                dp[i] = max(cal, dp[i])
-    if dp[i] == c:
-        result = i
-        break
+limit = max(arr)[0]
 
+print(limit)
+
+i = limit
+while True:
+    cal = dp[i - arr[j][0]] + arr[j][1]
+# for i in range(1, c + 1):
+#     for j in range(n):
+#         if arr[j][0] < limit:
+#             cal = dp[i - arr[j][0]] + arr[j][1]
+            
+#             if cal <= c:
+#                 dp[i] = max(cal, dp[i])
+#     if dp[i] == c:
+#         result = i
+#         break
+
+print(dp)
 print(result)
