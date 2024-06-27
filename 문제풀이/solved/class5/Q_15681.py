@@ -4,48 +4,34 @@ input = sys.stdin.readline
 
 n, r, q = map(int, input().split())
 graph = [[] for _ in range(n + 1)]
-table = [0] * (n + 1)
+dp = [1] * (n + 1)
 
-for i in range(n + 1):
-    table[i] = (i, 1)
-
-print(table)
 for i in range(1, n):
     u, v = map(int, input().split())
     graph[u].append(v)
     graph[v].append(u)
 
 def set_graph(route):
-    q = deque([route])
+    q1 = deque([route])
+    q2 = deque([])
     visited = [False] * (n + 1)
 
-    while q:
-        node = q.popleft()
+    while q1:
+        node = q1.popleft()
         visited[node] = True
         
         for number in graph[node]:
-            if visited[graph[node][i][0]]:
+            if visited[number]:
+                q2.append((number, node))
                 continue
             
-            graph[node][i] = (graph[node][i][0], 0)
-            q.append(graph[node][i][0])
+            q1.append(number)
 
-def query(start):
-    count = 1
-    q = deque([start])
-
-    while q:
-        node = q.popleft()
-        for i in range(len(graph[node])):
-            if graph[node][i][1] == 1:
-                continue
-
-            count += 1
-            q.append(graph[node][i][0])
-
-    print(count)
+    while q2:
+        node, previous_node = q2.pop()
+        dp[node] = dp[node] + dp[previous_node]
 
 set_graph(r)
 for i in range(q):
     q1 = int(input())
-    query(q1)
+    print(dp[q1])
