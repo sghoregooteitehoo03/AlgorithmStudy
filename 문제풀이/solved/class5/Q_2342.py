@@ -1,7 +1,5 @@
 import sys
 input = sys.stdin.readline
-dp = [0] * 100000
-pos = [0, 0]
 
 arr = list(map(int, input().split()))
 arr.pop(-1)
@@ -11,33 +9,43 @@ if len(arr) == 0:
 elif len(arr) < 2:
     print(2)
 else:
-    pos[0] = arr[0]
-    dp[0] = 2
+    dp = [[] for _ in range(len(arr))]
+    history = [[-1] * 5 for _ in range(5)]
+
+    dp[0].append((arr[0], 0, 2))
+    history[arr[0]][0] = 0
 
     for i in range(1, len(arr)):
-        number = arr[i]
-        min_length = 4
-        
-        if number - pos[0] == 0 or number - pos[0] == 0:
-            min_length = 1
-        else:
-            if pos[1] == 0:
-                dp[i] = dp[i - 1] + 2
-                continue
-            
-            if abs(number - pos[0]) == 2:
-                min_length = 4
-            else:
-                min_length = 3
+        for previous_value in dp[i - 1]:
+            dest = arr[i]
+            x, y, count = previous_value
 
-            if abs(number - pos[1]) == 2:
-                min_length = 4
-            else:
-                min_length = 3
+            if history[x][y] != i and history[y][x] != i:
+                if x == dest or y == dest:
+                    history[x][y] = i
+                    dp[i].append((x, y, count + 1))
+                else:
+                    x_count = 0
+                    y_count = 0
 
-        dp[i] = dp[i - 1] + min_length
-    
-    result = max(dp)
-    print(result)
+                    if abs(x - dest) == 2:
+                        x_count = count + 4
+                    else:
+                        x_count = count + 3
+
+                    if y == 0:
+                        y_count = count + 2
+                    else:
+                        if abs(y - dest) == 2:
+                            y_count = count + 4
+                        else:
+                            y_count = count + 3
+
+                    history[dest][y] = i
+                    history[x][dest] = i
+
+                    dp[i].append((dest, y, x_count))
+                    dp[i].append((x, dest, y_count))
+    print(min(dp[-1], key= lambda x: x[2])[2])
 
 # 2 1 3 2 3 0
