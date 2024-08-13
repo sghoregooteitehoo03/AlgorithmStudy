@@ -15,7 +15,31 @@ for _ in range(m):
         graph[a].append(b)
         indegree[b] += 1
 
-def toporogy_sort():
-    
 
-print(graph)
+def toporogy_sort():
+    q = deque([])
+    result = []
+
+    for i in range(1, n + 1):
+        if indegree[i] == 0:
+            q.append(i)
+
+    while q:
+        node = q.popleft()
+
+        for other_node in graph[node]:
+            indegree[other_node] -= 1
+            if indegree[other_node] == 0:
+                q.append(other_node)
+
+        result.append(node)
+
+    return result
+
+
+result_arr = toporogy_sort()
+if len(result_arr) != n:
+    print(0)
+else:
+    for result in result_arr:
+        print(result)
