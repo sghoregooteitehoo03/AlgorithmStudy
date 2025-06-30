@@ -1,12 +1,10 @@
 n = int(input())
-counterMoney = [500, 100, 50, 10]
+money_counter = [500, 100, 50, 10]
 count = 0
 
-for money in counterMoney:
-    divide = n // money
-    n -= money * divide
-
-    count += divide
+for money in money_counter:
+    count += n // money
+    n = n % money
 
 print(count)
 

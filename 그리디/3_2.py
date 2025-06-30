@@ -1,29 +1,25 @@
-N, M, K = map(int, input().split())
+n, m, k = map(int, input().split())
 numbers = list(map(int, input().split()))
-numbers.sort(reverse=True)
-
 result = 0
-count = 0
+count = m
 
-while True:
-    if count >= M:
-        break
-
-    count += K + 1
-    if (M - count) < 0:
-        divide = M - (count - (K+1))
-        count += divide
-
-        result += numbers[0] * divide
+numbers.sort(reverse=True)
+print(numbers)
+while count > 0:
+    if count >= k:
+        result += numbers[0] * k
+        count -= k
     else:
-        divide = K
-
-        result += numbers[0] * divide
+        result += numbers[0] * count
+        count = 0
+    
+    if count > 0:
         result += numbers[1]
+        count -= 1
 
 print(result)
 
-# 답지
+# 답지(최적화)
 # n, m, k = map(int, input().split())
 # data = list(map(int, input().split()))
 
