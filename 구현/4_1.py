@@ -1,25 +1,22 @@
 n = int(input())
-str = input().split()
-movement = {
-    'L': [0, -1],
-    'R': [0, 1],
-    'U': [-1, 0],
-    'D': [1, 0],
+movements = list(input().split())
+move_map = {
+    'R': (0, 1),
+    'L': (0, -1),
+    'U': (-1, 0),
+    'D': (1, 0)
 }
-currentPos = [0, 0]
+current_pos = (1, 1)
 
-for direct in str:
-    move = movement[direct]
-    movePos = currentPos.copy()
+for move in movements:
+    move_pos = move_map[move]
+    
+    next_pos_y = current_pos[0] + move_pos[0]
+    next_pos_x = current_pos[1] + move_pos[1]
 
-    movePos[0] += move[0]
-    movePos[1] += move[1]
-
-    if (movePos[0] < 0 or movePos[1] < 0):
-        continue
-    elif (movePos[0] > (n - 1) or movePos[1] > (n - 1)):
+    if (next_pos_x < 1) or (next_pos_x > n) or (next_pos_y < 1) or (next_pos_y > n):
         continue
 
-    currentPos = movePos
+    current_pos = (next_pos_y, next_pos_x)
 
-print(currentPos[0] + 1, currentPos[1] + 1)
+print(current_pos)

@@ -12,7 +12,7 @@ while count > 0:
     else:
         result += numbers[0] * count
         count = 0
-    
+
     if count > 0:
         result += numbers[1]
         count -= 1
