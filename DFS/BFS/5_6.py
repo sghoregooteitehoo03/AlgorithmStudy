@@ -1,42 +1,40 @@
 from collections import deque
 
-def bfs(graph, start, visited, movements):
-    visited[0][0] = True
-    queue = deque([start])
-
-    while queue:
-        currentPos = queue.popleft()
-        dy = currentPos[0]
-        dx = currentPos[1]
-
-        if dy == len(graph) - 1 and dx == len(graph[0]) - 1:
-            print(graph[dy][dx])
-            break
-
-        for movement in movements:
-            nextMove = [currentPos[0] + movement[0], currentPos[1] + movement[1]]
-            nextDy = nextMove[0]
-            nextDx = nextMove[1]
-
-            if (nextDy < 0 or nextDx < 0):
-                continue
-            elif (nextDy > len(graph) - 1 or nextDx > len(graph[0]) - 1):
-                continue
-
-            if graph[nextDy][nextDx] == 1 and not visited[nextDy][nextDx]:
-                queue.append([nextDy, nextDx])
-                visited[nextDy][nextDx] = True
-                
-                graph[nextDy][nextDx] = graph[dy][dx] + 1
-    
-
 n, m = map(int, input().split())
-room = []
-visited = [[False] * m for _ in range(n)]
-movements = [[-1, 0], [1, 0], [0, -1], [0, 1]]
+board = []
 
 for i in range(n):
-    inputData = input()
-    room.append(list(map(int, inputData)))
+    board.append(list(map(int, input())))
 
-bfs(room, [0, 0], visited, movements)
+def find(start_pos):
+    q = deque([start_pos])
+    
+    while q:
+        pos_i, pos_j, next = q.popleft()
+
+        if(pos_i == n - 1 and pos_j == m - 1):
+            print(next)
+            break
+        
+        visited = board[pos_i][pos_j] == 0
+        if not visited:
+            board[pos_i][pos_j] = 0
+
+            if pos_i + 1 < n:
+                q.append((pos_i + 1, pos_j, next + 1))
+            if pos_i - 1 >= 0:
+                q.append((pos_i - 1, pos_j, next + 1))
+            if pos_j + 1 < m:
+                q.append((pos_i, pos_j + 1, next + 1))
+            if pos_j - 1 >= 0:
+                q.append((pos_i, pos_j - 1, next + 1))
+
+find((0, 0, 1))
+
+
+# 5 6
+# 101010
+# 111111
+# 000001
+# 111111
+# 111111
