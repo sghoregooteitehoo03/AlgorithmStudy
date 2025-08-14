@@ -1,31 +1,29 @@
-def find_parent(graph, node):
-    if graph[node] != node:
-        graph[node] = find_parent(graph, graph[node])
-    return graph[node]
+def find_parent(parent, x):
+    if parent[x] != x:
+        parent[x] = find_parent(parent, parent[x])
+    return parent[x]
 
-def union_graph(graph, nodeA, nodeB):
-    a = find_parent(graph, nodeA)
-    b = find_parent(graph, nodeB)
-
+def union_parent(parent, a, b):
+    a = find_parent(parent, a)
+    b = find_parent(parent, b)
+    
     if a < b:
-        graph[b] = a
+        parent[b] = a
     else:
-        graph[a] = b
-
+        parent[a] = b
+        
 n, m = map(int, input().split())
-graph = [i for i in range(n + 1)]
-result = []
+parent = [0] * (n + 1)
+for i in range(1, n+1):
+    parent[i] = i
 
 for i in range(m):
-    cal, a, b = map(int, input().split())
+    c, a, b = map(int, input().split())
     
-    if cal == 0:
-        union_graph(graph, a, b)
-    elif cal == 1:
-        if find_parent(graph, a) == find_parent(graph, b):
-            result.append("YES")
+    if c == 0:
+        union_parent(parent, a, b)
+    else:
+        if find_parent(parent, a) == find_parent(parent, b):
+            print("YES")
         else:
-            result.append("NO")
-
-for s in result:
-    print(s)
+            print("NO")
