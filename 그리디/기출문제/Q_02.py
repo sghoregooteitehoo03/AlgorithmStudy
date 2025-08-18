@@ -1,12 +1,12 @@
-str = input()
-result = 0
+s = input()
 
-for s in str:
-    n = int(s)
+result = int(s[0])
+for i in range(1, len(s)):
+    current = int(s[i])
     
-    if result == 0 or n == 1:
-        result += n
+    if current <= 1 or result <= 1:
+        result += current
     else:
-        result *= n
-
+        result *= current
+        
 print(result)
