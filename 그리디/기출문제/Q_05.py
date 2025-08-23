@@ -1,18 +1,30 @@
+import itertools
 n, m = map(int, input().split())
-ballList = list(map(int, input().split()))
-countList = [0] * (m + 1)
-result = 0
+arr = list(map(int, input().split()))
 
-for i in range(n):
-    countList[ballList[i]] += 1
+comb = itertools.combinations(arr, 2)
+count = 0
+for x in comb:
+    if x[0] != x[1]:
+        count += 1
+        
+print(count)
 
-for i in range(n - 1):
-    ball = ballList[i]
+# n, m = map(int, input().split())
+# ballList = list(map(int, input().split()))
+# countList = [0] * (m + 1)
+# result = 0
+
+# for i in range(n):
+#     countList[ballList[i]] += 1
+
+# for i in range(n - 1):
+#     ball = ballList[i]
     
-    for j in range(1, m + 1):
-        if ball != j:
-            result += countList[j]
+#     for j in range(1, m + 1):
+#         if ball != j:
+#             result += countList[j]
     
-    countList[ball] -= 1
+#     countList[ball] -= 1
 
-print(result)
+# print(result)
