@@ -1,82 +1,57 @@
 # https://www.acmicpc.net/problem/3190
 from collections import deque
 
-def rotate_snake(current_direct, rotate):
-    d = {
-        'L': -1,
-        'D': 1
-    }
-
-    result = current_direct + d[rotate]
-    if result > 3:
-        return 0
-    elif result < 0:
-        return 3
-    else:
-        return result
-
-
-def move_snake(arr, current_pos, direct, backstack_q):
-    move_pos_list = [(0, 1), (1, 0), (0, -1), (-1, 0)]
-    move_pos = move_pos_list[direct]
-
-    move_row = move_pos[0] + current_pos[0]
-    move_col = move_pos[1] + current_pos[1]
-    if (move_row < len(arr) and move_row >= 0) and (move_col < len(arr) and move_col >= 0):
-        if arr[move_row][move_col] != 0:
-            if arr[move_row][move_col] == 7:
-                arr[move_row][move_col] = 1
-
-                return (move_row, move_col)
-            else:
-                return current_pos
-        else:
-            tail_pos = backstack_q.popleft()
-            arr[move_row][move_col] = 1
-            arr[tail_pos[0]][tail_pos[1]] = 0
-            return (move_row, move_col)
-    else:
-        return current_pos
-
-
 n = int(input())
 k = int(input())
-q = deque()
-backstack_q = deque()
-result = 0
-is_finished = False
-snake_table = [[0] * n for _ in range(n)]
-snake_table[0][0] = 1
-
-move_list = []
+board = [[0] * (n + 1) for _ in range(n + 1)]
 
 for i in range(k):
-    col, row = map(int, input().split())
-    snake_table[col - 1][row - 1] = 7
+    a, b = map(int, input().split())
+    board[a][b] = 1
 
 l = int(input())
+movements = []
+way = {
+    'L': -1,
+    'D': 1
+}
+directions = [(-1, 0), (0, 1), (1, 0), (0, -1)]
+
 for i in range(l):
-    time, rotate = input().split()
-    move_list.append((int(time), rotate))
+    x, c = input().split()
+    movements.append((int(x), c))
 
-current_dict = 0
-q.append((0, 0))
-while q:
-    current_pos = q.popleft()
-    backstack_q.append(current_pos)
+is_collision = False
 
-    for move in move_list:
-        if result == move[0]:
-            move_list.remove(move)
-            current_dict = rotate_snake(current_dict, move[1])
+next_move_index = 0
+current_direct_index = 1
+current_head_pos = (1, 1)
+q = deque([])
+time = 0
+
+while not is_collision:
+    if board[current_head_pos[0]][current_head_pos[1]] != 1:
+        if q:
+            previous_head_pos = q.popleft()
+            board[previous_head_pos[0]][previous_head_pos[1]] = 0
+    
+    board[current_head_pos[0]][current_head_pos[1]] = 5
+    
+    movement = movements[next_move_index]
+    if movement[0] == time:
+        current_direct_index = (current_direct_index + way[movement[1]]) % 4
         
-    result += 1
-    moved_pos = move_snake(snake_table, current_pos, current_dict, backstack_q)
+        if next_move_index + 1 < len(movements):
+            next_move_index += 1
+    
+    next_pos = (current_head_pos[0] + directions[current_direct_index][0], current_head_pos[1] + directions[current_direct_index][1])
+    if next_pos[0] < 1 or next_pos[0] >= len(board) or next_pos[1] < 1 or next_pos[1] >= len(board):
+        is_collision = True
+    elif board[next_pos[0]][next_pos[1]] == 5:
+        is_collision = True
+    
+    q.append(current_head_pos)
+    current_head_pos = next_pos
+    time += 1
 
-    if current_pos == moved_pos:
-        is_finished = True
-        break
-
-    q.append(moved_pos)
-
-print(result)
+print(time)
