@@ -1,15 +1,27 @@
+# 1, 2, 3, 4, 5
 n = int(input())
 coins = list(map(int, input().split()))
-
 coins.sort()
-
 target = 1
+
 for coin in coins:
-    if target < coin:
-        break
-    target += coin
-    
+    if coin <= target:
+        target += coin
+
 print(target)
+
+# n = int(input())
+# coins = list(map(int, input().split()))
+
+# coins.sort()
+
+# target = 1
+# for coin in coins:
+#     if target < coin:
+#         break
+#     target += coin
+    
+# print(target)
 
 # n = int(input())
 # moneyList = list(map(int, input().split()))
