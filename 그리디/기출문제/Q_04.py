@@ -1,4 +1,3 @@
-# 1, 2, 3, 4, 5
 n = int(input())
 coins = list(map(int, input().split()))
 coins.sort()
