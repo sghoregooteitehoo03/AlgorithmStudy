@@ -1,15 +1,29 @@
 s = input()
-arr = list(map(str, s))
-arr.sort()
-
-total = 0
-for i in range(len(arr)):
-    if arr[i].isdigit():
-        total += int(arr[i])
+s_arr = []
+count = 0
+for c in s:
+    if c.isdigit():
+        count += int(c)
     else:
-        break
-    
-print("".join(arr[i:]) + str(total))
+        s_arr.append(c)
+
+
+s_arr.sort()
+result = str.join("", s_arr)
+print(result + str(count))
+
+# s = input()
+# arr = list(map(str, s))
+# arr.sort()
+
+# total = 0
+# for i in range(len(arr)):
+#     if arr[i].isdigit():
+#         total += int(arr[i])
+#     else:
+#         break
+
+# print("".join(arr[i:]) + str(total))
 
 # str = input()
 # sum = 0

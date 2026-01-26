@@ -1,59 +1,103 @@
 # https://school.programmers.co.kr/learn/courses/30/lessons/60059
 import copy
 
-def rotate(key):
-    n = len(key)
-    new = [[0] * n for _ in range(n)]
-    
-    for i in range(n):
-        for j in range(n):
-            new[j][n-i-1] = key[i][j]
-    return new
-
 def solution(key, lock):
-    board = []
-    n = len(key)
-    m = len(lock)
-    sum_value = 0
-    
-    for i in range(m * 3):
-        line = []
-        for j in range(m * 3):
-            if i >= m and i < (m * 2) and j >= m and j < (m * 2):
-                line.append(lock[i - m][j - m])
-                sum_value += lock[i - m][j - m]
-            else:
-                line.append(1)
-        board.append(line)
-    
-    if sum_value == m * m:
-        return True
-    
-    for i in range((m - n) + 1, ((m * 3) - n)):
-        for j in range((m - n) + 1, ((m * 3) - n)):
+    m = len(key)
+    n = len(lock)
+    flat_lock = [[0] * (n * 3) for _ in range(n * 3)]
+
+    for i in range(n, n + n):
+        for j in range(n, n + n):
+            flat_lock[i][j] = lock[i - n][j - n]
+
+    for i in range(n + n):
+        for j in range(n + n):
             for _ in range(4):
-                key = rotate(copy.deepcopy(key))
-                new_board = copy.deepcopy(board)
-                
-                for a in range(n):
-                    for b in range(n):
-                        new_board[i + a][j + b] += key[a][b]
-                
-                for a in range(m, m * 2):
-                    is_break = False
-                    for b in range(m, m * 2):
-                        if new_board[a][b] != 1:
-                            is_break = True
-                            break
-                    
-                    if is_break:
-                        break
-                
-                if not is_break:
+                if calculate_check(key, copy.deepcopy(flat_lock), i, j, n, m):
                     return True
-                sum_value = 0
-            
+
+                key = rotate_arr(key, m)
+
     return False
+
+
+def calculate_check(key, flat_lock, i, j, n, m):
+    for k in range(m):
+        for l in range(m):
+            flat_lock[i + k][j + l] += key[k][l]
+    
+    for k in range(n):
+        for l in range(n):
+            if flat_lock[k + n][l + n] != 1:
+                return False
+
+    return True
+
+
+def rotate_arr(key, m):
+    sub_key = [[0] * m for _ in range(m)]
+
+    for i in range(m):
+        for j in range(m):
+            sub_key[j][m - 1 - i] = key[i][j]
+
+    return sub_key
+
+# import copy
+
+# def rotate(key):
+#     n = len(key)
+#     new = [[0] * n for _ in range(n)]
+    
+#     for i in range(n):
+#         for j in range(n):
+#             new[j][n-i-1] = key[i][j]
+#     return new
+
+# def solution(key, lock):
+#     board = []
+#     n = len(key)
+#     m = len(lock)
+#     sum_value = 0
+    
+#     for i in range(m * 3):
+#         line = []
+#         for j in range(m * 3):
+#             if i >= m and i < (m * 2) and j >= m and j < (m * 2):
+#                 line.append(lock[i - m][j - m])
+#                 sum_value += lock[i - m][j - m]
+#             else:
+#                 line.append(1)
+#         board.append(line)
+    
+#     if sum_value == m * m:
+#         return True
+    
+#     for i in range((m - n) + 1, ((m * 3) - n)):
+#         for j in range((m - n) + 1, ((m * 3) - n)):
+#             for _ in range(4):
+#                 key = rotate(copy.deepcopy(key))
+#                 new_board = copy.deepcopy(board)
+                
+#                 for a in range(n):
+#                     for b in range(n):
+#                         new_board[i + a][j + b] += key[a][b]
+                
+#                 for a in range(m, m * 2):
+#                     is_break = False
+#                     for b in range(m, m * 2):
+#                         if new_board[a][b] != 1:
+#                             is_break = True
+#                             break
+                    
+#                     if is_break:
+#                         break
+                
+#                 if not is_break:
+#                     return True
+#                 sum_value = 0
+            
+#     return False
 
 # import copy
 

@@ -1,14 +1,24 @@
 # https://www.acmicpc.net/problem/18406
-n = input()
-half = len(n) // 2
+s = input()
+n = len(s)
+start = s[: (n // 2)]
+end = s[(n // 2) :]
 
-first = list(map(int, n[:half]))
-second = list(map(int, n[half:]))
-
-if sum(first) == sum(second):
+if sum(list(map(int, start))) == sum(list(map(int, end))):
     print("LUCKY")
 else:
     print("READY")
+
+# n = input()
+# half = len(n) // 2
+
+# first = list(map(int, n[:half]))
+# second = list(map(int, n[half:]))
+
+# if sum(first) == sum(second):
+#     print("LUCKY")
+# else:
+#     print("READY")
 
 # str = input()
 # half = len(str) // 2

@@ -2,12 +2,12 @@ def solution(food_times, k):
     values = []
     n = len(food_times)
 
-    for i in range(len(food_times)):
+    for i in range(n):
         values.append((food_times[i], i + 1))
 
     values.sort()
     pretime = 0
-    for i in range(len(food_times)):
+    for i in range(len(values)):
         food = values[i]
         diff = food[0] - pretime
 
@@ -19,25 +19,52 @@ def solution(food_times, k):
                 pretime = food[0]
             else:
                 k %= n
-                sublist = sorted(values[i:], key= lambda x: x[1])
+                sublist = sorted(values[i:], key=lambda x: x[1])
                 return sublist[k][1]
 
         n -= 1
-    
+
     return -1
 
-print(solution([3, 5, 1, 6, 5, 3], 20))
+
+# def solution(food_times, k):
+#     values = []
+#     n = len(food_times)
+
+#     for i in range(len(food_times)):
+#         values.append((food_times[i], i + 1))
+
+#     values.sort()
+#     pretime = 0
+#     for i in range(len(food_times)):
+#         food = values[i]
+#         diff = food[0] - pretime
+
+#         if diff != 0:
+#             spend = diff * n
+
+#             if spend <= k:
+#                 k -= spend
+#                 pretime = food[0]
+#             else:
+#                 k %= n
+#                 sublist = sorted(values[i:], key= lambda x: x[1])
+#                 return sublist[k][1]
+
+#         n -= 1
+
+#     return -1
 
 # def solution(food_times, k):
 #     foods = []
 #     n = len(food_times)
-    
+
 #     for i in range(n):
 #         foods.append((food_times[i], i+1))
-        
+
 #     foods.sort()
 #     previous_t = 0
-    
+
 #     for i, food in enumerate(foods):
 #         diff = food[0] - previous_t
 #         if diff != 0:
@@ -50,7 +77,7 @@ print(solution([3, 5, 1, 6, 5, 3], 20))
 #                 sublist = sorted(foods[i:], key=lambda x: x[1])
 #                 return sublist[k][1]
 #         n -= 1
-    
+
 #     return -1
 
 
