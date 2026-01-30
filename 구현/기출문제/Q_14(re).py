@@ -3,6 +3,8 @@
 from itertools import permutations
 
 INF = 1e9
+
+
 def solution(n, weak, dist):
     answer = INF
     weak_size = len(weak)
@@ -13,11 +15,11 @@ def solution(n, weak, dist):
             cnt = 1
             pos = start
             for i in range(1, weak_size):
-                nextPos = start + i
-                diff = weak[nextPos] - weak[pos]
+                next_pos = start + i
+                diff = weak[next_pos] - weak[pos]
 
                 if diff > d[cnt - 1]:
-                    pos = nextPos
+                    pos = next_pos
                     cnt += 1
 
                     if cnt > len(dist):
@@ -28,6 +30,36 @@ def solution(n, weak, dist):
         return -1
 
     return answer
+
+
+# from itertools import permutations
+
+# INF = 1e9
+# def solution(n, weak, dist):
+#     answer = INF
+#     weak_size = len(weak)
+#     weak = weak + [w + n for w in weak]
+
+#     for start in range(weak_size):
+#         for d in permutations(dist, len(dist)):
+#             cnt = 1
+#             pos = start
+#             for i in range(1, weak_size):
+#                 nextPos = start + i
+#                 diff = weak[nextPos] - weak[pos]
+
+#                 if diff > d[cnt - 1]:
+#                     pos = nextPos
+#                     cnt += 1
+
+#                     if cnt > len(dist):
+#                         break
+#             if cnt <= len(dist):
+#                 answer = min(answer, cnt)
+#     if answer == INF:
+#         return -1
+
+#     return answer
 
 
 print(solution(12, [1, 5, 6, 10], [1, 2, 3, 4]))
