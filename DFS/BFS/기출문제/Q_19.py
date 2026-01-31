@@ -1,38 +1,48 @@
 # https://www.acmicpc.net/problem/14888
 from itertools import permutations
+INF = 1e9
 
 n = int(input())
-number_list = list(map(int, input().split()))
-operation_list = list(map(int, input().split()))
-operation_list_flat = []
+numbers = list(map(int, input().split()))
+operators = list(map(int, input().split()))
+operators_str = []
 
-max_result = int(-1e9)
-min_result = int(1e9)
+for i in range(len(operators)):
+    if i == 0:
+        for j in range(operators[i]):
+            operators_str.append("+")
+    elif i == 1:
+        for j in range(operators[i]):
+            operators_str.append("-")
+    elif i == 2:
+        for j in range(operators[i]):
+            operators_str.append("*")
+    else:
+        for j in range(operators[i]):
+            operators_str.append("/")
 
-for i in range(len(operation_list)):
-    for j in range(operation_list[i]):
-        operation_list_flat.append(i)
+maxValue = int(-INF)
+minValue = int(INF)
 
-cases = list(set(permutations(operation_list_flat)))
-for case in cases:
-    result = 0
-    for i in range(len(number_list)):
-        if i == 0:
-            result += number_list[i]
-        else:
-            if case[i - 1] == 0:
-                result += number_list[i]
-            elif case[i - 1] == 1:
-                result -= number_list[i]
-            elif case[i - 1] == 2:
-                result *= number_list[i]
-            elif case[i - 1] == 3:
-                result = int(result / number_list[i])
+for operator_set in permutations(operators_str, len(operators_str)):
+    result1 = numbers[0]
+    for i in range(len(operator_set)):
+        operator = operator_set[i]
+        
+        if operator == "+":
+            result1 += numbers[i + 1]
+        elif operator == "-":
+            result1 -= numbers[i + 1]
+        elif operator == "*":
+            result1 *= numbers[i + 1]
+        elif operator == "/":
+            if result1 < 0:
+                result1 = -(abs(result1) // numbers[i + 1])
+            else:
+                result1 //= numbers[i + 1]
+    
+    maxValue = max(maxValue, result1)
+    minValue = min(minValue, result1)
 
-    if result < min_result:
-        min_result = result
-    if result > max_result:
-        max_result = result
-
-print(max_result)
-print(min_result)
+print(maxValue)
+print(minValue)
