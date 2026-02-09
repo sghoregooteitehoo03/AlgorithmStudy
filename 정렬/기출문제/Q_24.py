@@ -1,10 +1,9 @@
 # https://www.acmicpc.net/problem/18310
 n = int(input())
-home = list(map(int, input().split()))
+house = list(map(int, input().split()))
+house.sort()
 
-home.sort()
-
-if len(home) % 2 == 0:
-    print(home[(len(home) // 2) - 1])
+if len(house) % 2 == 0:
+    print(house[(len(house) // 2) - 1])
 else:
-    print(home[len(home) // 2])
+    print(house[(len(house) // 2)])

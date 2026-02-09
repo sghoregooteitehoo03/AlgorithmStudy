@@ -1,13 +1,12 @@
 # https://www.acmicpc.net/problem/10825
 n = int(input())
-student = []
+arr = []
 
 for i in range(n):
-    name, kor, eng, math = input().split()
-    grades = [int(kor), int(eng), int(math)]
+    name, k, e, m = input().split()
+    arr.append((name, int(k), int(e), int(m)))
 
-    student.append((name, grades))
+arr.sort(key=lambda x: (-x[1], x[2], -x[3], x[0]))
 
-student.sort(key = lambda x: (-x[1][0], x[1][1],-x[1][2], x[0]))
-for s in student:
-    print(s[0])
+for name in arr:
+    print(name[0])
