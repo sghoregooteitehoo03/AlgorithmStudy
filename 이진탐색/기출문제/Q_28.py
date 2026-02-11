@@ -1,21 +1,21 @@
-def binary_search(arr, start, end):
-    if start > end:
-        return None
-    mid = (start + end) // 2
+n = int(input())
+arr = list(map(int, input().split()))
 
-    if arr[mid] == mid:
-        return mid
-    elif arr[mid] > mid:
-        return binary_search(arr, start, mid - 1)
-    else:
-        return binary_search(arr, mid + 1, end)
+def binary_search():
+    start = 0
+    end = len(arr) - 1
+
+    while start <= end:
+        mid = (start + end) // 2
+        if mid == arr[mid]:
+            return mid
+        elif mid > arr[mid]:
+            start = mid + 1
+        else:
+            end = mid - 1
+
+    return -1
 
 
-N = int(input())
-array = list(map(int, input().split()))
-result = binary_search(array, 0, N - 1)
-
-if result != None:
-    print(result)
-else:
-    print(-1)
+result = binary_search()
+print(result)
