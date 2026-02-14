@@ -1,24 +1,24 @@
 # https://www.acmicpc.net/problem/2110
 n, c = map(int, input().split())
-arr = []
+homes = []
 
 for i in range(n):
-    arr.append(int(input()))
-arr.sort()
+    homes.append(int(input()))
+homes.sort()
 
 start = 1
-end = arr[-1] - arr[0]
+end = homes[-1] + homes[0]
 result = 0
 
 while start <= end:
     mid = (start + end) // 2
-    current_pos = arr[0]
+    current_pos = homes[0]
     count = 1
 
-    for i in range(1, n):
-        if arr[i] >= current_pos + mid:
+    for i in range(1, len(homes)):
+        if homes[i] - current_pos >= mid:
             count += 1
-            current_pos = arr[i]
+            current_pos = homes[i]
 
     if count >= c:
         result = mid
