@@ -22,7 +22,6 @@ for i in range(1, n):
 
 print(dp[n - 1])
 
-
 # n = int(input())
 # dp = [0] * n
 # dp[0] = 1
