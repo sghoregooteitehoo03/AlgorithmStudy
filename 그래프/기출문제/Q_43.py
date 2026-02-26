@@ -1,38 +1,41 @@
+# 크루스칼 알고리즘 사용
+# 비용이 낮은 순대로 연결
+# 사이클이 발생하면 패스 발생하지 않으면 연결
+# 연결하면서의 비용을 출력
+
 def find_parent(parent, x):
     if parent[x] != x:
         parent[x] = find_parent(parent, parent[x])
     return parent[x]
 
 def union_parent(parent, a, b):
-    a = find_parent(parent, a)
-    b = find_parent(parent, b)
+    parent_a = find_parent(parent, a)
+    parent_b = find_parent(parent, b)
 
-    if a < b:
-        parent[b] = a
+    if parent_a < parent_b:
+        parent[parent_b] = parent_a
     else:
-        parent[a] = b
+        parent[parent_a] = parent_b
 
 n, m = map(int, input().split())
-parent = [0] * n
-edges = []
+parent = [i for i in range(n)]
+roads = []
+
 total = 0
-
-for i in range(n):
-    parent[i] = i
-
 for _ in range(m):
-    a, b, cost = map(int, input().split())
-    total += cost
-    
-    edges.append((cost, a, b))
+    a, b, length = map(int, input().split())
+    total += length
+    roads.append((length, a, b))
 
-edges.sort()
+roads.sort()
+result = 0
+for road in roads:
+    length, a, b = road
 
-for edge in edges:
-    cost, a, b = edge
+    if find_parent(parent, a) == find_parent(parent, b):
+        continue
 
-    if find_parent(parent, a) != find_parent(parent, b):
-        union_parent(parent, a, b)
-        total -= cost
+    result += length
+    union_parent(parent, a, b)
 
-print(total)
+print(total - result)
