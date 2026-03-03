@@ -4,13 +4,12 @@
 
 def solution(name):
     count = 0
-
+    
     for s in name:
         count += get_diff(s)
 
     n = len(name)
     move = n - 1
-
     for i in range(n):
         next_i = i + 1
         while next_i < n and name[next_i] == "A":
@@ -21,6 +20,3 @@ def solution(name):
 
 def get_diff(s):
     return min(ord(s) - ord("A"), ord("Z") - ord(s) + 1)
-
-
-solution("JEROEN")
