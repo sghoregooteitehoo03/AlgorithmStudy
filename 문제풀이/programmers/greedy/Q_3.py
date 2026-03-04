@@ -3,7 +3,6 @@
 # 횟수가 남았으면 남은 수 만큼 잘라냄
 # 출력
 
-
 def solution(number, k):
     stack = []
 
