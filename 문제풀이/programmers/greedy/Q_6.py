@@ -4,10 +4,9 @@
 # 이중 포문 사용
 # 한 차를 기준으로 그 범위에 들어가는 모든 차를 계산
 # 그걸 카운트
-
 def solution(routes):
     answer = 0
-    routes.sort(key = lambda x:x[1])
+    routes.sort(key=lambda x: x[1])
 
     camera = -30001
     for route in routes:
@@ -20,4 +19,5 @@ def solution(routes):
 
     return answer
 
-solution([[-20,-15], [-14,-5], [-18,-13], [-5,-3]])
+
+solution([[-20, -15], [-14, -5], [-18, -13], [-5, -3]])
