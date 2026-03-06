@@ -1,4 +1,3 @@
-# [1, 2, 3, 1]
 def solution(money):
     n = len(money)
 
@@ -15,6 +14,6 @@ def solution(money):
     for i in range(2, n):
         dp2[i] = max(dp2[i - 1], dp2[i - 2] + money[i])
 
-    return max(dp1, dp2)
+    return max(max(dp1), max(dp2))
 
-solution([1, 2, 3, 1])
+print(solution([1, 2, 3, 1]))
