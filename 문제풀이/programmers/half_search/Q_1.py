@@ -3,7 +3,7 @@
 def solution(n, times):
     left = 1
     right = max(times) * n
-    
+
     answer = right
     while left <= right:
         mid = (left + right) // 2
@@ -14,13 +14,13 @@ def solution(n, times):
 
             if people_count >= n:
                 break
-
+        
         if people_count >= n:
             answer = mid
             right = mid - 1
         else:
             left = mid + 1
-
+    
     return answer
 
 print(solution(6, [7, 10]))

@@ -6,16 +6,15 @@ from collections import defaultdict
 
 def solution(tickets):
     routes = defaultdict(list)
-    
+
     for start, end in tickets:
         routes[start].append(end)
 
     for values in routes.values():
-        values.sort(reverse = True)
+        values.sort(reverse=True)
 
     stack = ["ICN"]
     path = []
-    
     while stack:
         top = stack[-1]
 
