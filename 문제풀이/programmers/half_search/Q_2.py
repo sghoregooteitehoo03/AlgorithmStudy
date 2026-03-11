@@ -12,23 +12,22 @@ def solution(distance, rocks, n):
 
     while left <= right:
         mid = (left + right) // 2
-        remove_count = 0
+        count = 0
         current_pos = 0
 
         for rock in rocks:
             diff = rock - current_pos
 
             if diff < mid:
-                remove_count += 1
+                count += 1
             else:
                 current_pos = rock
 
-        if remove_count > n:
+        if count > n:
             right = mid - 1
         else:
-            answer = mid
             left = mid + 1
-
+            answer = mid
     return answer
 
 
