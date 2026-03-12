@@ -4,6 +4,7 @@
 
 # n이 입력 되었을때 계산이 수행되어야 함
 
+# 문자열 문제
 # 26진수 (a = 1, z = 26, aa = 27) ae = 31 af 32 ag 33 ah 34
 # bans를 확인해서 n보다 작은 숫자면 카운트 
 #  카운트 값을 더해서 그걸 해당하는 문자열로 반환
@@ -12,16 +13,15 @@ def solution(n, bans):
     ban_nums = []
     for ban in bans:
         value = 0
-        for char in ban:
-            value = value * 26 + (ord(char) - ord('a') + 1)
+        for c in ban:
+            value = value * 26 + (ord(c) - ord('a') + 1)
         ban_nums.append(value)
 
     ban_nums.sort()
 
     target = n
-
-    for ban in ban_nums:
-        if ban <= target:
+    for num in ban_nums:
+        if num <= target:
             target += 1
         else:
             break
