@@ -5,7 +5,7 @@ INF = 1e9
 
 def solution(info, n, m):
     dp = [INF] * n
-    dp[0] = 0  # 초기 상태: 훔친 물건이 없으므로 둘 다 흔적 0
+    dp[0] = 0
 
     for trace_a, trace_b in info:
         next_dp = [INF] * n
@@ -19,7 +19,7 @@ def solution(info, n, m):
 
             if dp[a] + trace_b < m:
                 next_dp[a] = min(next_dp[a], dp[a] + trace_b)
-        
+
         dp = next_dp
 
     for a in range(n):
