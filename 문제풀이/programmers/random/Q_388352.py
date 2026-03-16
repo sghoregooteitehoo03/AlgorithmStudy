@@ -5,18 +5,17 @@ from itertools import combinations
 def solution(n, q, ans):
     answer = 0
     all_possible_code = combinations(range(1, n + 1), 5)
-    question_set = [set(query) for query in q]
+    question_set = [set(question) for question in q]
 
     for code in all_possible_code:
         code_set = set(code)
-        is_success = True
+        is_successful = True
 
         for i in range(len(q)):
             if len(code_set & question_set[i]) != ans[i]:
-                is_success = False
-                break
+                is_successful = False
 
-        if is_success:
+        if is_successful:
             answer += 1
 
     return answer
