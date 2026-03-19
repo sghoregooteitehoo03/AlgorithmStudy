@@ -6,27 +6,25 @@ from itertools import combinations, product
 from bisect import bisect_left
 
 def solution(dice):
-    n = len(dice)
-    dice_indices = set(range(n))
-
-    max_wins = 0
+    n  = len(dice)
+    dice_range = set(range(n))
     best_dice_combo = []
 
-    for a_combo in combinations(range(n), n // 2):
-        b_combo = tuple(dice_indices - set(a_combo))
+    max_wins = 0
+    for a_dice_combo in combinations(range(n), n // 2):
+        b_dice_combo = tuple(set(dice_range) - set(a_dice_combo))
 
-        a_sums = [sum(p) for p in product(*[dice[i] for i in a_combo])]
-        b_sums = [sum(p) for p in product(*[dice[i] for i in b_combo])]
-
+        a_sums = [sum(p) for p in product(*[dice[i] for i in a_dice_combo])]
+        b_sums = [sum(p) for p in product(*[dice[i] for i in b_dice_combo])]
         b_sums.sort()
+        
         wins = 0
-
         for a_sum in a_sums:
             wins += bisect_left(b_sums, a_sum)
 
         if max_wins < wins:
             max_wins = wins
-            best_dice_combo = a_combo
+            best_dice_combo = a_dice_combo
 
     return [x + 1 for x in best_dice_combo]
 
